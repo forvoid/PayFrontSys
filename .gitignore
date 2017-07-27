@@ -1,0 +1,25 @@
+# 忽略文件
+# Compiled class file
+/logs/
+/out/
+/.idea/
+*/target/
+*.iml
+*.class
+# Log file
+*.log
+*/*.iml
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
