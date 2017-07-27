@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiupai.payFrontSys.mybatis.mapper.PayFrontInfoMapper">
+  <resultMap id="BaseResultMap" type="po.PayFrontInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="org_code" jdbcType="VARCHAR" property="orgCode" />
+    <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+    <result column="is_front_end" jdbcType="INTEGER" property="isFrontEnd" />
+    <result column="state_process" jdbcType="INTEGER" property="stateProcess" />
+    <result column="is_single_key" jdbcType="INTEGER" property="isSingleKey" />
+    <result column="cert_type" jdbcType="INTEGER" property="certType" />
+    <result column="key_no" jdbcType="VARCHAR" property="keyNo" />
+    <result column="strat_master" jdbcType="INTEGER" property="stratMaster" />
+    <result column="source_ip" jdbcType="VARCHAR" property="sourceIp" />
+    <result column="nated_ip" jdbcType="VARCHAR" property="natedIp" />
+    <result column="req_addr" jdbcType="VARCHAR" property="reqAddr" />
+    <result column="service_type" jdbcType="VARCHAR" property="serviceType" />
+    <result column="port" jdbcType="INTEGER" property="port" />
+    <result column="strat_network" jdbcType="INTEGER" property="stratNetwork" />
+    <result column="app_type" jdbcType="VARCHAR" property="appType" />
+    <result column="state_enable" jdbcType="INTEGER" property="stateEnable" />
+    <result column="op_code" jdbcType="VARCHAR" property="opCode" />
+    <result column="op_passwd" jdbcType="VARCHAR" property="opPasswd" />
+    <result column="ins_time" jdbcType="TIMESTAMP" property="insTime" />
+    <result column="upd_time" jdbcType="TIMESTAMP" property="updTime" />
+    <result column="eee" jdbcType="TIMESTAMP" property="ee" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, org_code, org_name, is_front_end, state_process, is_single_key, cert_type, key_no, 
+    strat_master, source_ip, nated_ip, req_addr, service_type, port, strat_network, app_type, 
+    state_enable, op_code, op_passwd, ins_time, upd_time
+  </sql>
+
+  <select id="selectByPage" resultMap="BaseResultMap">
+    SELECT
+      distinct
+    <include refid="Base_Column_List" />
+    from pay_front_info1
+
+
+    order by id desc limit ${page*rows},${rows}
+  </select>
+
+  <select id="selectCount" resultType="java.lang.Integer">
+    SELECT
+   count(*)
+    from pay_front_info
+  </select>
+
+  <select id="selectByCode" resultMap="BaseResultMap">
+    SELECT
+      distinct
+    <include refid="Base_Column_List" />
+    from pay_front_info
+    WHERE  org_code LIKE '%${code}%'
+
+    order by id desc
+  </select>
+
+  <select id="selectByExample" parameterType="po.PayFrontInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pay_front_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pay_front_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pay_front_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="po.PayFrontInfoExample">
+    delete from pay_front_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="po.PayFrontInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into pay_front_info (id, org_code, org_name, 
+      is_front_end, state_process, is_single_key, 
+      cert_type, key_no, strat_master, 
+      source_ip, nated_ip, req_addr, 
+      service_type, port, strat_network, 
+      app_type, state_enable, op_code, 
+      op_passwd, ins_time, upd_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{orgCode,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, 
+      #{isFrontEnd,jdbcType=INTEGER}, #{stateProcess,jdbcType=INTEGER}, #{isSingleKey,jdbcType=INTEGER}, 
+      #{certType,jdbcType=INTEGER}, #{keyNo,jdbcType=INTEGER}, #{stratMaster,jdbcType=INTEGER}, 
+      #{sourceIp,jdbcType=VARCHAR}, #{natedIp,jdbcType=VARCHAR}, #{reqAddr,jdbcType=VARCHAR}, 
+      #{serviceType,jdbcType=VARCHAR}, #{port,jdbcType=INTEGER}, #{stratNetwork,jdbcType=INTEGER}, 
+      #{appType,jdbcType=VARCHAR}, #{stateEnable,jdbcType=INTEGER}, #{opCode,jdbcType=VARCHAR}, 
+      #{opPasswd,jdbcType=VARCHAR}, #{insTime,jdbcType=TIMESTAMP}, #{updTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="po.PayFrontInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into pay_front_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orgCode != null">
+        org_code,
+      </if>
+      <if test="orgName != null">
+        org_name,
+      </if>
+      <if test="isFrontEnd != null">
+        is_front_end,
+      </if>
+      <if test="stateProcess != null">
+        state_process,
+      </if>
+      <if test="isSingleKey != null">
+        is_single_key,
+      </if>
+      <if test="certType != null">
+        cert_type,
+      </if>
+      <if test="keyNo != null">
+        key_no,
+      </if>
+      <if test="stratMaster != null">
+        strat_master,
+      </if>
+      <if test="sourceIp != null">
+        source_ip,
+      </if>
+      <if test="natedIp != null">
+        nated_ip,
+      </if>
+      <if test="reqAddr != null">
+        req_addr,
+      </if>
+      <if test="serviceType != null">
+        service_type,
+      </if>
+      <if test="port != null">
+        port,
+      </if>
+      <if test="stratNetwork != null">
+        strat_network,
+      </if>
+      <if test="appType != null">
+        app_type,
+      </if>
+      <if test="stateEnable != null">
+        state_enable,
+      </if>
+      <if test="opCode != null">
+        op_code,
+      </if>
+      <if test="opPasswd != null">
+        op_passwd,
+      </if>
+      <if test="insTime != null">
+        ins_time,
+      </if>
+      <if test="updTime != null">
+        upd_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="isFrontEnd != null">
+        #{isFrontEnd,jdbcType=INTEGER},
+      </if>
+      <if test="stateProcess != null">
+        #{stateProcess,jdbcType=INTEGER},
+      </if>
+      <if test="isSingleKey != null">
+        #{isSingleKey,jdbcType=INTEGER},
+      </if>
+      <if test="certType != null">
+        #{certType,jdbcType=INTEGER},
+      </if>
+      <if test="keyNo != null">
+        #{keyNo,jdbcType=INTEGER},
+      </if>
+      <if test="stratMaster != null">
+        #{stratMaster,jdbcType=INTEGER},
+      </if>
+      <if test="sourceIp != null">
+        #{sourceIp,jdbcType=VARCHAR},
+      </if>
+      <if test="natedIp != null">
+        #{natedIp,jdbcType=VARCHAR},
+      </if>
+      <if test="reqAddr != null">
+        #{reqAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceType != null">
+        #{serviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        #{port,jdbcType=INTEGER},
+      </if>
+      <if test="stratNetwork != null">
+        #{stratNetwork,jdbcType=INTEGER},
+      </if>
+      <if test="appType != null">
+        #{appType,jdbcType=VARCHAR},
+      </if>
+      <if test="stateEnable != null">
+        #{stateEnable,jdbcType=INTEGER},
+      </if>
+      <if test="opCode != null">
+        #{opCode,jdbcType=VARCHAR},
+      </if>
+      <if test="opPasswd != null">
+        #{opPasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="insTime != null">
+        #{insTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null">
+        #{updTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="po.PayFrontInfoExample" resultType="java.lang.Long">
+    select count(*) from pay_front_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pay_front_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgCode != null">
+        org_code = #{record.orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgName != null">
+        org_name = #{record.orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isFrontEnd != null">
+        is_front_end = #{record.isFrontEnd,jdbcType=INTEGER},
+      </if>
+      <if test="record.stateProcess != null">
+        state_process = #{record.stateProcess,jdbcType=INTEGER},
+      </if>
+      <if test="record.isSingleKey != null">
+        is_single_key = #{record.isSingleKey,jdbcType=INTEGER},
+      </if>
+      <if test="record.certType != null">
+        cert_type = #{record.certType,jdbcType=INTEGER},
+      </if>
+      <if test="record.keyNo != null">
+        key_no = #{record.keyNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.stratMaster != null">
+        strat_master = #{record.stratMaster,jdbcType=INTEGER},
+      </if>
+      <if test="record.sourceIp != null">
+        source_ip = #{record.sourceIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.natedIp != null">
+        nated_ip = #{record.natedIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reqAddr != null">
+        req_addr = #{record.reqAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceType != null">
+        service_type = #{record.serviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.port != null">
+        port = #{record.port,jdbcType=INTEGER},
+      </if>
+      <if test="record.stratNetwork != null">
+        strat_network = #{record.stratNetwork,jdbcType=INTEGER},
+      </if>
+      <if test="record.appType != null">
+        app_type = #{record.appType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stateEnable != null">
+        state_enable = #{record.stateEnable,jdbcType=INTEGER},
+      </if>
+      <if test="record.opCode != null">
+        op_code = #{record.opCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opPasswd != null">
+        op_passwd = #{record.opPasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.insTime != null">
+        ins_time = #{record.insTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updTime != null">
+        upd_time = #{record.updTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pay_front_info
+    set id = #{record.id,jdbcType=INTEGER},
+      org_code = #{record.orgCode,jdbcType=VARCHAR},
+      org_name = #{record.orgName,jdbcType=VARCHAR},
+      is_front_end = #{record.isFrontEnd,jdbcType=INTEGER},
+      state_process = #{record.stateProcess,jdbcType=INTEGER},
+      is_single_key = #{record.isSingleKey,jdbcType=INTEGER},
+      cert_type = #{record.certType,jdbcType=INTEGER},
+      key_no = #{record.keyNo,jdbcType=INTEGER},
+      strat_master = #{record.stratMaster,jdbcType=INTEGER},
+      source_ip = #{record.sourceIp,jdbcType=VARCHAR},
+      nated_ip = #{record.natedIp,jdbcType=VARCHAR},
+      req_addr = #{record.reqAddr,jdbcType=VARCHAR},
+      service_type = #{record.serviceType,jdbcType=VARCHAR},
+      port = #{record.port,jdbcType=INTEGER},
+      strat_network = #{record.stratNetwork,jdbcType=INTEGER},
+      app_type = #{record.appType,jdbcType=VARCHAR},
+      state_enable = #{record.stateEnable,jdbcType=INTEGER},
+      op_code = #{record.opCode,jdbcType=VARCHAR},
+      op_passwd = #{record.opPasswd,jdbcType=VARCHAR},
+      ins_time = #{record.insTime,jdbcType=TIMESTAMP},
+      upd_time = #{record.updTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="po.PayFrontInfo">
+    update pay_front_info
+    <set>
+      <if test="orgCode != null">
+        org_code = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="isFrontEnd != null">
+        is_front_end = #{isFrontEnd,jdbcType=INTEGER},
+      </if>
+      <if test="stateProcess != null">
+        state_process = #{stateProcess,jdbcType=INTEGER},
+      </if>
+      <if test="isSingleKey != null">
+        is_single_key = #{isSingleKey,jdbcType=INTEGER},
+      </if>
+      <if test="certType != null">
+        cert_type = #{certType,jdbcType=INTEGER},
+      </if>
+      <if test="keyNo != null">
+        key_no = #{keyNo,jdbcType=INTEGER},
+      </if>
+      <if test="stratMaster != null">
+        strat_master = #{stratMaster,jdbcType=INTEGER},
+      </if>
+      <if test="sourceIp != null">
+        source_ip = #{sourceIp,jdbcType=VARCHAR},
+      </if>
+      <if test="natedIp != null">
+        nated_ip = #{natedIp,jdbcType=VARCHAR},
+      </if>
+      <if test="reqAddr != null">
+        req_addr = #{reqAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceType != null">
+        service_type = #{serviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        port = #{port,jdbcType=INTEGER},
+      </if>
+      <if test="stratNetwork != null">
+        strat_network = #{stratNetwork,jdbcType=INTEGER},
+      </if>
+      <if test="appType != null">
+        app_type = #{appType,jdbcType=VARCHAR},
+      </if>
+      <if test="stateEnable != null">
+        state_enable = #{stateEnable,jdbcType=INTEGER},
+      </if>
+      <if test="opCode != null">
+        op_code = #{opCode,jdbcType=VARCHAR},
+      </if>
+      <if test="opPasswd != null">
+        op_passwd = #{opPasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="insTime != null">
+        ins_time = #{insTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null">
+        upd_time = #{updTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.PayFrontInfo">
+    update pay_front_info
+    set org_code = #{orgCode,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      is_front_end = #{isFrontEnd,jdbcType=INTEGER},
+      state_process = #{stateProcess,jdbcType=INTEGER},
+      is_single_key = #{isSingleKey,jdbcType=INTEGER},
+      cert_type = #{certType,jdbcType=INTEGER},
+      key_no = #{keyNo,jdbcType=INTEGER},
+      strat_master = #{stratMaster,jdbcType=INTEGER},
+      source_ip = #{sourceIp,jdbcType=VARCHAR},
+      nated_ip = #{natedIp,jdbcType=VARCHAR},
+      req_addr = #{reqAddr,jdbcType=VARCHAR},
+      service_type = #{serviceType,jdbcType=VARCHAR},
+      port = #{port,jdbcType=INTEGER},
+      strat_network = #{stratNetwork,jdbcType=INTEGER},
+      app_type = #{appType,jdbcType=VARCHAR},
+      state_enable = #{stateEnable,jdbcType=INTEGER},
+      op_code = #{opCode,jdbcType=VARCHAR},
+      op_passwd = #{opPasswd,jdbcType=VARCHAR},
+      ins_time = #{insTime,jdbcType=TIMESTAMP},
+      upd_time = #{updTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
